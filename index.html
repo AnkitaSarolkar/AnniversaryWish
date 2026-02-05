@@ -38,7 +38,6 @@
       border-radius: 8px;
       position: absolute;
       cursor: pointer;
-      touch-action: manipulation;
       white-space: nowrap;
     }
 
@@ -46,25 +45,23 @@
       background-color: #4CAF50;
       color: white;
       bottom: 30px;
-      left: 50%;
-      transform: translateX(-120%);
+      left: 60px;
     }
 
     #noBtn {
       background-color: #f44336;
       color: white;
       bottom: 30px;
-      left: 50%;
-      transition: left 0.15s ease-out;
+      left: 220px;
     }
 
-    /* 🔥 Tiny shake animation */
+    /* Shake using margin — NOT transform */
     @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      50% { transform: translateX(4px); }
-      75% { transform: translateX(-4px); }
-      100% { transform: translateX(0); }
+      0% { margin-left: 0; }
+      25% { margin-left: -4px; }
+      50% { margin-left: 4px; }
+      75% { margin-left: -4px; }
+      100% { margin-left: 0; }
     }
 
     .shake {
@@ -73,10 +70,6 @@
 
     .hidden {
       display: none;
-    }
-
-    .result {
-      text-align: center;
     }
 
     .result h1 {
@@ -127,50 +120,41 @@
       "Not clicking this 😜"
     ];
 
-    let attemptCount = 0;
+    let attempts = 0;
 
     function moveNoButton() {
-      attemptCount++;
+      attempts++;
 
-      // Change text logic
-      if (attemptCount >= 5) {
+      // Text change
+      if (attempts >= 5) {
         noBtn.textContent = "Okay okay, click YES 😌";
       } else {
-        noBtn.textContent = noTexts[attemptCount % noTexts.length];
+        noBtn.textContent = noTexts[attempts % noTexts.length];
       }
 
-      // Shake animation
+      // Shake
       noBtn.classList.remove("shake");
-      void noBtn.offsetWidth; // reflow to restart animation
+      void noBtn.offsetWidth;
       noBtn.classList.add("shake");
 
-      // Horizontal movement (no overlap with Yes)
-      const containerRect = questionPage.getBoundingClientRect();
-      const yesRect = yesBtn.getBoundingClientRect();
-      const noRect = noBtn.getBoundingClientRect();
-      const padding = 20;
+      // Move horizontally only
+      const containerWidth = questionPage.clientWidth;
+      const btnWidth = noBtn.offsetWidth;
 
-      let randomX;
-      do {
-        randomX = Math.random() * (containerRect.width - noRect.width);
-      } while (
-        randomX + noRect.width > (yesRect.left - containerRect.left - padding) &&
-        randomX < (yesRect.right - containerRect.left + padding)
-      );
+      const minX = 10;
+      const maxX = containerWidth - btnWidth - 10;
 
+      const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
       noBtn.style.left = randomX + "px";
     }
 
     // Desktop
-    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("mouseenter", moveNoButton);
 
     // Mobile
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
+    noBtn.addEventListener("touchstart", moveNoButton);
 
-    // Yes click
+    // Yes click (always works)
     yesBtn.addEventListener("click", () => {
       questionPage.classList.add("hidden");
       resultPage.classList.remove("hidden");
