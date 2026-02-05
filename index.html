@@ -121,11 +121,7 @@
   const noRow = document.getElementById("noRow");
   const yesBtn = document.getElementById("yesBtn");
 
-  let tries = 0;
-
   function moveNoButton() {
-    tries++;
-
     noBtn.classList.add("shake");
     setTimeout(() => noBtn.classList.remove("shake"), 200);
 
@@ -143,7 +139,7 @@
   noBtn.addEventListener("mouseover", moveNoButton);
 
   yesBtn.addEventListener("click", () => {
-    // Big heart
+    // Heart animation
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "❤️";
@@ -157,7 +153,7 @@
     // Anniversary screen
     document.getElementById("card").innerHTML = `
       <h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>
-      <img class="gif" src="https://media.gifdb.com/cute-dancing-peach-and-goma-9xf6bolxzx1ye10k.gif" alt="Cute anniversary gif">
+      <img class="gif" src="anniversary.webp" alt="Cute anniversary gif">
     `;
   });
 </script>
