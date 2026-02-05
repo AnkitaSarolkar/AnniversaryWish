@@ -43,17 +43,17 @@
     #yesBtn {
       background-color: #4CAF50;
       color: white;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-120%);
-      bottom: 30px;
     }
 
     #noBtn {
       background-color: #f44336;
       color: white;
-      left: 50%;
-      transform: translateX(20%);
       bottom: 30px;
+      left: 50%;
+      transition: left 0.15s ease-out;
     }
 
     .hidden {
@@ -93,18 +93,22 @@
     const yesBtn = document.getElementById("yesBtn");
     const questionPage = document.getElementById("questionPage");
     const resultPage = document.getElementById("resultPage");
-    const container = document.getElementById("questionPage");
 
     function moveNoButton() {
-      const maxX = container.clientWidth - noBtn.offsetWidth;
-      const maxY = container.clientHeight - noBtn.offsetHeight;
+      const containerRect = questionPage.getBoundingClientRect();
+      const yesRect = yesBtn.getBoundingClientRect();
+      const noRect = noBtn.getBoundingClientRect();
+      const padding = 20;
 
-      const randomX = Math.floor(Math.random() * maxX);
-      const randomY = Math.floor(Math.random() * (maxY - 80)) + 80;
+      let randomX;
+      do {
+        randomX = Math.random() * (containerRect.width - noRect.width);
+      } while (
+        randomX + noRect.width > (yesRect.left - containerRect.left - padding) &&
+        randomX < (yesRect.right - containerRect.left + padding)
+      );
 
       noBtn.style.left = randomX + "px";
-      noBtn.style.top = randomY + "px";
-      noBtn.style.transform = "none";
     }
 
     // Desktop
@@ -116,6 +120,7 @@
       moveNoButton();
     });
 
+    // Yes click
     yesBtn.addEventListener("click", () => {
       questionPage.classList.add("hidden");
       resultPage.classList.remove("hidden");
