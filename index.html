@@ -33,13 +33,12 @@
     margin-bottom: 25px;
   }
 
-  /* Buttons */
   .button-row {
     position: relative;
     height: 60px;
-    margin-top: 15px;
     padding: 0 20px;
     overflow: hidden;
+    margin-top: 15px;
   }
 
   button {
@@ -48,7 +47,6 @@
     border-radius: 25px;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s;
     white-space: nowrap;
   }
 
@@ -65,7 +63,6 @@
     top: 0;
   }
 
-  /* Shake */
   .shake {
     animation: shake 0.2s;
   }
@@ -78,26 +75,7 @@
     100% { transform: translateX(0); }
   }
 
-  /* Kitten */
-  .kitten {
-    width: 120px;
-    margin: 0 auto 15px;
-  }
-
-  .tail {
-    transform-origin: top left;
-    animation: tailWag 1s infinite alternate;
-  }
-
-  @keyframes tailWag {
-    from { transform: rotate(10deg); }
-    to { transform: rotate(-20deg); }
-  }
-
-  .sad-eye { fill: #555; }
-  .happy-eye { fill: #000; }
-
-  /* Heart */
+  /* Heart animation */
   .heart {
     position: fixed;
     font-size: 60px;
@@ -110,34 +88,19 @@
     60% { transform: scale(2); opacity: 1; }
     100% { transform: scale(3); opacity: 0; }
   }
+
+  .gif {
+    width: 100%;
+    max-width: 260px;
+    margin-top: 15px;
+    border-radius: 15px;
+  }
 </style>
 </head>
 
 <body>
 
 <div class="card" id="card">
-
-  <!-- KITTEN SVG -->
-  <svg class="kitten" viewBox="0 0 200 200">
-    <!-- Body -->
-    <ellipse cx="100" cy="120" rx="55" ry="45" fill="#f2c9a0"/>
-    <!-- Head -->
-    <circle cx="100" cy="70" r="40" fill="#f2c9a0"/>
-    <!-- Ears -->
-    <polygon points="65,40 50,10 80,30" fill="#f2c9a0"/>
-    <polygon points="135,40 150,10 120,30" fill="#f2c9a0"/>
-
-    <!-- Eyes -->
-    <circle id="eyeL" cx="85" cy="70" r="5" class="sad-eye"/>
-    <circle id="eyeR" cx="115" cy="70" r="5" class="sad-eye"/>
-
-    <!-- Mouth -->
-    <path id="mouth" d="M90 85 Q100 90 110 85" stroke="#555" stroke-width="2" fill="none"/>
-
-    <!-- Tail -->
-    <path class="tail" d="M150 120 Q180 110 170 150" stroke="#f2c9a0" stroke-width="10" fill="none"/>
-  </svg>
-
   <h2>
     Will you:<br><br>
     Share food 🍕<br>
@@ -157,10 +120,6 @@
   const noBtn = document.getElementById("noBtn");
   const noRow = document.getElementById("noRow");
   const yesBtn = document.getElementById("yesBtn");
-
-  const eyeL = document.getElementById("eyeL");
-  const eyeR = document.getElementById("eyeR");
-  const mouth = document.getElementById("mouth");
 
   let tries = 0;
 
@@ -184,11 +143,6 @@
   noBtn.addEventListener("mouseover", moveNoButton);
 
   yesBtn.addEventListener("click", () => {
-    // Happy kitten
-    eyeL.setAttribute("r", "6");
-    eyeR.setAttribute("r", "6");
-    mouth.setAttribute("d", "M85 85 Q100 95 115 85");
-
     // Big heart
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -200,8 +154,11 @@
 
     setTimeout(() => heart.remove(), 1200);
 
-    document.getElementById("card").innerHTML +=
-      "<h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>";
+    // Anniversary screen
+    document.getElementById("card").innerHTML = `
+      <h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>
+      <img class="gif" src="https://media.gifdb.com/cute-dancing-peach-and-goma-9xf6bolxzx1ye10k.gif" alt="Cute anniversary gif">
+    `;
   });
 </script>
 
