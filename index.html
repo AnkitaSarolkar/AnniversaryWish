@@ -58,6 +58,19 @@
       transition: left 0.15s ease-out;
     }
 
+    /* 🔥 Tiny shake animation */
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+
+    .shake {
+      animation: shake 0.3s;
+    }
+
     .hidden {
       display: none;
     }
@@ -96,7 +109,7 @@
     <h1>🎉 Happy Anniversary My Love ❤️</h1>
     <p>
       Thank you for choosing me — always.<br>
-      I love you more than words can say 😌💖
+      I love you endlessly 😌💖
     </p>
   </div>
 
@@ -106,7 +119,32 @@
     const questionPage = document.getElementById("questionPage");
     const resultPage = document.getElementById("resultPage");
 
+    const noTexts = [
+      "Let me think 🙈",
+      "Are you sure? 😅",
+      "Nice try 😏",
+      "Hmm… maybe 🤔",
+      "Not clicking this 😜"
+    ];
+
+    let attemptCount = 0;
+
     function moveNoButton() {
+      attemptCount++;
+
+      // Change text logic
+      if (attemptCount >= 5) {
+        noBtn.textContent = "Okay okay, click YES 😌";
+      } else {
+        noBtn.textContent = noTexts[attemptCount % noTexts.length];
+      }
+
+      // Shake animation
+      noBtn.classList.remove("shake");
+      void noBtn.offsetWidth; // reflow to restart animation
+      noBtn.classList.add("shake");
+
+      // Horizontal movement (no overlap with Yes)
       const containerRect = questionPage.getBoundingClientRect();
       const yesRect = yesBtn.getBoundingClientRect();
       const noRect = noBtn.getBoundingClientRect();
