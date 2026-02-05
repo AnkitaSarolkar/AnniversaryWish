@@ -2,111 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Just One Question ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Anniversary ❤️</title>
 
   <style>
     body {
-      margin: 0;
-      height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Segoe UI", sans-serif;
       background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      height: 100vh;
+      margin: 0;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
 
     .container {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 20px;
       width: 90%;
-      max-width: 420px;
-      height: 320px;
+      max-width: 380px;
       text-align: center;
       position: relative;
+      overflow: hidden;
     }
 
-    h1 {
-      font-size: 20px;
-      margin-bottom: 40px;
-      color: #333;
-      line-height: 1.4;
+    h2 {
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      position: relative;
+      height: 70px;
     }
 
     button {
-      padding: 12px 22px;
+      padding: 12px 20px;
       font-size: 16px;
       border: none;
-      border-radius: 8px;
-      position: absolute;
+      border-radius: 25px;
       cursor: pointer;
-      touch-action: manipulation;
+      position: absolute;
+      transition: transform 0.15s ease;
       white-space: nowrap;
     }
 
     #yesBtn {
-      background-color: #4CAF50;
+      background: #ff4d6d;
       color: white;
-      bottom: 30px;
       left: 50%;
-      transform: translateX(-120%);
+      transform: translateX(-50%);
     }
 
     #noBtn {
-      background-color: #f44336;
-      color: white;
-      bottom: 30px;
-      left: 50%;
-      transition: left 0.15s ease-out;
+      background: #ccc;
+      color: #333;
+      left: 10px;
+    }
+
+    .shake {
+      animation: shake 0.2s;
     }
 
     @keyframes shake {
       0% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      50% { transform: translateX(4px); }
-      75% { transform: translateX(-4px); }
+      25% { transform: translateX(-3px); }
+      50% { transform: translateX(3px); }
+      75% { transform: translateX(-3px); }
       100% { transform: translateX(0); }
-    }
-
-    .shake {
-      animation: shake 0.3s;
     }
 
     .hidden {
       display: none;
     }
 
-    .result {
-      text-align: center;
-    }
-
     .result h1 {
-      font-size: 26px;
-    }
-
-    .result p {
-      font-size: 18px;
+      color: #ff4d6d;
     }
   </style>
 </head>
+
 <body>
 
   <div class="container" id="questionPage">
-    <h1>
+    <h2>
       Will you:<br><br>
       Share food 🍕<br>
       Watch my shows 📺<br>
       Listen to my stories (again) 🙈<br><br>
-      for 7 janams? ❤️
-    </h1>
+      for 7 janams?
+    </h2>
 
-    <button id="yesBtn">Obviously 😍</button>
-    <button id="noBtn">Let me think 🙈</button>
+    <div class="buttons">
+      <button id="yesBtn">Obviously YES ❤️</button>
+      <button id="noBtn">Let me think 🙈</button>
+    </div>
   </div>
 
   <div class="container hidden result" id="resultPage">
-    <h1>🎉 Happy Anniversary My Love ❤️</h1>
+    <h1>Happy Anniversary ❤️</h1>
     <p>
-      Thank you for choosing me — always.<br>
-      I love you endlessly 😌💖
+      Thank you for choosing me —<br>
+      again and again and again 🥰
     </p>
   </div>
 
@@ -118,61 +116,50 @@
 
     const noTexts = [
       "Let me think 🙈",
-      "Are you sure? 😅",
+      "Are you serious? 😅",
       "Nice try 😏",
-      "Hmm… maybe 🤔",
-      "Not clicking this 😜"
+      "Still thinking 🤔",
+      "Okay okay, click YES 😌"
     ];
 
-    let attempts = 0;
-    let isMoving = false; // prevents rapid re-entry
+    let tries = 0;
 
     function moveNoButton() {
-      if (isMoving) return;
-      isMoving = true;
+      tries++;
 
-      attempts++;
+      // Change text
+      noBtn.textContent = noTexts[Math.min(tries - 1, noTexts.length - 1)];
 
-      // Text logic
-      noBtn.textContent =
-        attempts >= 5 ? "Okay okay, click YES 😌" : noTexts[attempts % noTexts.length];
-
-      // Shake
-      noBtn.classList.remove("shake");
-      void noBtn.offsetWidth;
+      // Shake effect
       noBtn.classList.add("shake");
+      setTimeout(() => noBtn.classList.remove("shake"), 200);
 
-      const containerRect = questionPage.getBoundingClientRect();
+      const container = questionPage.getBoundingClientRect();
       const yesRect = yesBtn.getBoundingClientRect();
       const noRect = noBtn.getBoundingClientRect();
-      const padding = 16;
 
-      const leftZoneEnd = (yesRect.left - containerRect.left) - noRect.width - padding;
-      const rightZoneStart = (yesRect.right - containerRect.left) + padding;
+      const safeGap = 30; // space around YES button
+      const maxX = container.width - noRect.width - 10;
 
-      let newLeft;
+      let newX;
+      let attempts = 0;
 
-      // Choose safe zone
-      if (leftZoneEnd > 0 && Math.random() < 0.5) {
-        newLeft = Math.random() * leftZoneEnd;
-      } else if (rightZoneStart < containerRect.width - noRect.width) {
-        newLeft =
-          rightZoneStart +
-          Math.random() * (containerRect.width - noRect.width - rightZoneStart);
-      } else {
-        // fallback: small jitter, never hang
-        newLeft = Math.random() * (containerRect.width - noRect.width);
-      }
+      do {
+        newX = Math.random() * maxX;
+        attempts++;
+      } while (
+        attempts < 20 &&
+        newX + noRect.width + safeGap > (yesRect.left - container.left) &&
+        newX - safeGap < (yesRect.right - container.left)
+      );
 
-      noBtn.style.left = `${newLeft}px`;
-
-      setTimeout(() => {
-        isMoving = false;
-      }, 180);
+      noBtn.style.left = `${newX}px`;
     }
 
+    // Desktop
     noBtn.addEventListener("mouseover", moveNoButton);
 
+    // Mobile
     noBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       moveNoButton();
