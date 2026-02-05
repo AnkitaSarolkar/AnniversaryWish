@@ -38,6 +38,7 @@
       border-radius: 8px;
       position: absolute;
       cursor: pointer;
+      touch-action: manipulation;
       white-space: nowrap;
     }
 
@@ -45,23 +46,24 @@
       background-color: #4CAF50;
       color: white;
       bottom: 30px;
-      left: 60px;
+      left: 50%;
+      transform: translateX(-120%);
     }
 
     #noBtn {
       background-color: #f44336;
       color: white;
       bottom: 30px;
-      left: 220px;
+      left: 50%;
+      transition: left 0.15s ease-out;
     }
 
-    /* Shake using margin — NOT transform */
     @keyframes shake {
-      0% { margin-left: 0; }
-      25% { margin-left: -4px; }
-      50% { margin-left: 4px; }
-      75% { margin-left: -4px; }
-      100% { margin-left: 0; }
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
     }
 
     .shake {
@@ -70,6 +72,10 @@
 
     .hidden {
       display: none;
+    }
+
+    .result {
+      text-align: center;
     }
 
     .result h1 {
@@ -83,7 +89,6 @@
 </head>
 <body>
 
-  <!-- Question Page -->
   <div class="container" id="questionPage">
     <h1>
       Will you:<br><br>
@@ -97,7 +102,6 @@
     <button id="noBtn">Let me think 🙈</button>
   </div>
 
-  <!-- Result Page -->
   <div class="container hidden result" id="resultPage">
     <h1>🎉 Happy Anniversary My Love ❤️</h1>
     <p>
@@ -121,40 +125,59 @@
     ];
 
     let attempts = 0;
+    let isMoving = false; // prevents rapid re-entry
 
     function moveNoButton() {
+      if (isMoving) return;
+      isMoving = true;
+
       attempts++;
 
-      // Text change
-      if (attempts >= 5) {
-        noBtn.textContent = "Okay okay, click YES 😌";
-      } else {
-        noBtn.textContent = noTexts[attempts % noTexts.length];
-      }
+      // Text logic
+      noBtn.textContent =
+        attempts >= 5 ? "Okay okay, click YES 😌" : noTexts[attempts % noTexts.length];
 
       // Shake
       noBtn.classList.remove("shake");
       void noBtn.offsetWidth;
       noBtn.classList.add("shake");
 
-      // Move horizontally only
-      const containerWidth = questionPage.clientWidth;
-      const btnWidth = noBtn.offsetWidth;
+      const containerRect = questionPage.getBoundingClientRect();
+      const yesRect = yesBtn.getBoundingClientRect();
+      const noRect = noBtn.getBoundingClientRect();
+      const padding = 16;
 
-      const minX = 10;
-      const maxX = containerWidth - btnWidth - 10;
+      const leftZoneEnd = (yesRect.left - containerRect.left) - noRect.width - padding;
+      const rightZoneStart = (yesRect.right - containerRect.left) + padding;
 
-      const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
-      noBtn.style.left = randomX + "px";
+      let newLeft;
+
+      // Choose safe zone
+      if (leftZoneEnd > 0 && Math.random() < 0.5) {
+        newLeft = Math.random() * leftZoneEnd;
+      } else if (rightZoneStart < containerRect.width - noRect.width) {
+        newLeft =
+          rightZoneStart +
+          Math.random() * (containerRect.width - noRect.width - rightZoneStart);
+      } else {
+        // fallback: small jitter, never hang
+        newLeft = Math.random() * (containerRect.width - noRect.width);
+      }
+
+      noBtn.style.left = `${newLeft}px`;
+
+      setTimeout(() => {
+        isMoving = false;
+      }, 180);
     }
 
-    // Desktop
-    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("mouseover", moveNoButton);
 
-    // Mobile
-    noBtn.addEventListener("touchstart", moveNoButton);
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
 
-    // Yes click (always works)
     yesBtn.addEventListener("click", () => {
       questionPage.classList.add("hidden");
       resultPage.classList.remove("hidden");
