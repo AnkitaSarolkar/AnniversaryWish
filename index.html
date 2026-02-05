@@ -18,16 +18,17 @@
 
     .container {
       width: 90%;
-      max-width: 400px;
-      height: 300px;
+      max-width: 420px;
+      height: 320px;
       text-align: center;
       position: relative;
     }
 
     h1 {
-      font-size: 22px;
-      margin-bottom: 50px;
+      font-size: 20px;
+      margin-bottom: 40px;
       color: #333;
+      line-height: 1.4;
     }
 
     button {
@@ -38,6 +39,7 @@
       position: absolute;
       cursor: pointer;
       touch-action: manipulation;
+      white-space: nowrap;
     }
 
     #yesBtn {
@@ -77,15 +79,25 @@
 
   <!-- Question Page -->
   <div class="container" id="questionPage">
-    <h1>Will you be my partner for 7 janam? 💍❤️</h1>
-    <button id="yesBtn">Yes 😍</button>
-    <button id="noBtn">No 🙈</button>
+    <h1>
+      Will you:<br><br>
+      Share food 🍕<br>
+      Watch my shows 📺<br>
+      Listen to my stories (again) 🙈<br><br>
+      for 7 janams? ❤️
+    </h1>
+
+    <button id="yesBtn">Obviously 😍</button>
+    <button id="noBtn">Let me think 🙈</button>
   </div>
 
   <!-- Result Page -->
   <div class="container hidden result" id="resultPage">
     <h1>🎉 Happy Anniversary My Love ❤️</h1>
-    <p>You are officially stuck with me for all 7 janams 😌💖</p>
+    <p>
+      Thank you for choosing me — always.<br>
+      I love you more than words can say 😌💖
+    </p>
   </div>
 
   <script>
