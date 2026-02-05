@@ -28,13 +28,19 @@
     }
 
     h2 {
-      margin-bottom: 25px;
       line-height: 1.6;
+      margin-bottom: 30px;
     }
 
     .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .button-row {
       position: relative;
-      height: 70px;
+      height: 55px;
     }
 
     button {
@@ -43,22 +49,21 @@
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      position: absolute;
-      transition: transform 0.15s ease;
       white-space: nowrap;
+      transition: transform 0.15s ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     #yesBtn {
       background: #ff4d6d;
       color: white;
-      left: 50%;
-      transform: translateX(-50%);
     }
 
     #noBtn {
       background: #ccc;
       color: #333;
-      left: 10px;
     }
 
     .shake {
@@ -66,11 +71,11 @@
     }
 
     @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-3px); }
-      50% { transform: translateX(3px); }
-      75% { transform: translateX(-3px); }
-      100% { transform: translateX(0); }
+      0% { transform: translateX(-50%) translateX(0); }
+      25% { transform: translateX(-50%) translateX(-3px); }
+      50% { transform: translateX(-50%) translateX(3px); }
+      75% { transform: translateX(-50%) translateX(-3px); }
+      100% { transform: translateX(-50%) translateX(0); }
     }
 
     .hidden {
@@ -95,8 +100,13 @@
     </h2>
 
     <div class="buttons">
-      <button id="yesBtn">Obviously YES ❤️</button>
-      <button id="noBtn">Let me think 🙈</button>
+      <div class="button-row">
+        <button id="yesBtn">Obviously YES ❤️</button>
+      </div>
+
+      <div class="button-row" id="noRow">
+        <button id="noBtn">Let me think 🙈</button>
+      </div>
     </div>
   </div>
 
@@ -104,19 +114,20 @@
     <h1>Happy Anniversary ❤️</h1>
     <p>
       Thank you for choosing me —<br>
-      again and again and again 🥰
+      again and again and always 🥰
     </p>
   </div>
 
   <script>
     const noBtn = document.getElementById("noBtn");
+    const noRow = document.getElementById("noRow");
     const yesBtn = document.getElementById("yesBtn");
     const questionPage = document.getElementById("questionPage");
     const resultPage = document.getElementById("resultPage");
 
     const noTexts = [
       "Let me think 🙈",
-      "Are you serious? 😅",
+      "Are you sure? 😅",
       "Nice try 😏",
       "Still thinking 🤔",
       "Okay okay, click YES 😌"
@@ -127,33 +138,19 @@
     function moveNoButton() {
       tries++;
 
-      // Change text
+      // Change text after each try
       noBtn.textContent = noTexts[Math.min(tries - 1, noTexts.length - 1)];
 
-      // Shake effect
+      // Shake
       noBtn.classList.add("shake");
       setTimeout(() => noBtn.classList.remove("shake"), 200);
 
-      const container = questionPage.getBoundingClientRect();
-      const yesRect = yesBtn.getBoundingClientRect();
-      const noRect = noBtn.getBoundingClientRect();
+      const rowWidth = noRow.clientWidth;
+      const btnWidth = noBtn.clientWidth;
+      const maxMove = rowWidth - btnWidth - 10;
 
-      const safeGap = 30; // space around YES button
-      const maxX = container.width - noRect.width - 10;
-
-      let newX;
-      let attempts = 0;
-
-      do {
-        newX = Math.random() * maxX;
-        attempts++;
-      } while (
-        attempts < 20 &&
-        newX + noRect.width + safeGap > (yesRect.left - container.left) &&
-        newX - safeGap < (yesRect.right - container.left)
-      );
-
-      noBtn.style.left = `${newX}px`;
+      const randomX = Math.random() * maxMove;
+      noBtn.style.left = `${randomX}px`;
     }
 
     // Desktop
