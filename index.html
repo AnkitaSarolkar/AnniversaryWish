@@ -1,156 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>One Question ❤️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Anniversary ❤️</title>
 
-  <style>
-    body {
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      background: linear-gradient(135deg, #ffd6e8, #ffeef6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd6e8, #fff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      width: 90%;
-      max-width: 400px;
-    }
+  .card {
+    background: white;
+    width: 90%;
+    max-width: 380px;
+    padding: 25px 20px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    overflow: hidden;
+  }
 
-    h1 {
-      font-size: 22px;
-      margin-bottom: 25px;
-    }
+  h2 {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+  }
 
-    .buttons {
-      position: relative;
-      height: 90px;
-    }
+  /* Buttons */
+  .button-row {
+    position: relative;
+    height: 60px;
+    margin-top: 15px;
+    padding: 0 20px;
+    overflow: hidden;
+  }
 
-    button {
-      padding: 12px 18px;
-      font-size: 16px;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-    }
+  button {
+    font-size: 15px;
+    padding: 10px 18px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+    white-space: nowrap;
+  }
 
-    #yesBtn {
-      background: #ff4d88;
-      color: white;
-    }
+  #yesBtn {
+    background: #ff4d88;
+    color: white;
+    width: 100%;
+  }
 
-    #noWrapper {
-      position: absolute;
-      top: 45px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: transform 0.3s ease;
-    }
+  #noBtn {
+    position: absolute;
+    background: #ddd;
+    left: 20px;
+    top: 0;
+  }
 
-    #noBtn {
-      background: #ccc;
-      color: #333;
-    }
+  /* Shake */
+  .shake {
+    animation: shake 0.2s;
+  }
 
-    .kitten {
-      font-size: 24px;
-      transition: transform 0.3s ease;
-    }
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+  }
 
-    .shake {
-      animation: shake 0.3s;
-    }
+  /* Kitten */
+  .kitten {
+    width: 120px;
+    margin: 0 auto 15px;
+  }
 
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      50% { transform: translateX(4px); }
-      75% { transform: translateX(-4px); }
-      100% { transform: translateX(0); }
-    }
+  .tail {
+    transform-origin: top left;
+    animation: tailWag 1s infinite alternate;
+  }
 
-    .hidden {
-      display: none;
-    }
-  </style>
+  @keyframes tailWag {
+    from { transform: rotate(10deg); }
+    to { transform: rotate(-20deg); }
+  }
+
+  .sad-eye { fill: #555; }
+  .happy-eye { fill: #000; }
+
+  /* Heart */
+  .heart {
+    position: fixed;
+    font-size: 60px;
+    animation: heartPop 1.2s forwards;
+    z-index: 10;
+  }
+
+  @keyframes heartPop {
+    0% { transform: scale(0); opacity: 1; }
+    60% { transform: scale(2); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+</style>
 </head>
 
 <body>
 
-  <div class="card" id="questionCard">
-    <h1>
-      Will you:<br><br>
-      Share food 🍕<br>
-      Watch my shows 📺<br>
-      Listen to my stories (again) 🙈<br><br>
-      for a lifetime? 💕
-    </h1>
+<div class="card" id="card">
 
-    <div class="buttons">
-      <button id="yesBtn">Obviously 😍</button>
+  <!-- KITTEN SVG -->
+  <svg class="kitten" viewBox="0 0 200 200">
+    <!-- Body -->
+    <ellipse cx="100" cy="120" rx="55" ry="45" fill="#f2c9a0"/>
+    <!-- Head -->
+    <circle cx="100" cy="70" r="40" fill="#f2c9a0"/>
+    <!-- Ears -->
+    <polygon points="65,40 50,10 80,30" fill="#f2c9a0"/>
+    <polygon points="135,40 150,10 120,30" fill="#f2c9a0"/>
 
-      <div id="noWrapper">
-        <span class="kitten">🐱</span>
-        <button id="noBtn">Let me think 🙈</button>
-      </div>
-    </div>
+    <!-- Eyes -->
+    <circle id="eyeL" cx="85" cy="70" r="5" class="sad-eye"/>
+    <circle id="eyeR" cx="115" cy="70" r="5" class="sad-eye"/>
+
+    <!-- Mouth -->
+    <path id="mouth" d="M90 85 Q100 90 110 85" stroke="#555" stroke-width="2" fill="none"/>
+
+    <!-- Tail -->
+    <path class="tail" d="M150 120 Q180 110 170 150" stroke="#f2c9a0" stroke-width="10" fill="none"/>
+  </svg>
+
+  <h2>
+    Will you:<br><br>
+    Share food 🍕<br>
+    Watch my shows 📺<br>
+    Listen to my stories (again) 🙈<br><br>
+    for 7 janams?
+  </h2>
+
+  <button id="yesBtn">YESSS ❤️</button>
+
+  <div class="button-row" id="noRow">
+    <button id="noBtn">Let me think 🤔</button>
   </div>
+</div>
 
-  <div class="card hidden" id="resultCard">
-    <h1>🎉 Happy Anniversary ❤️</h1>
-    <p>
-      Best decision ever 😌<br><br>
-      I love you forever 💕
-    </p>
-  </div>
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const noRow = document.getElementById("noRow");
+  const yesBtn = document.getElementById("yesBtn");
 
-  <script>
-    const noWrapper = document.getElementById("noWrapper");
-    const noBtn = document.getElementById("noBtn");
-    const kitten = document.querySelector(".kitten");
-    const yesBtn = document.getElementById("yesBtn");
+  const eyeL = document.getElementById("eyeL");
+  const eyeR = document.getElementById("eyeR");
+  const mouth = document.getElementById("mouth");
 
-    let tries = 0;
-    let direction = 1;
+  let tries = 0;
 
-    function moveNoButton() {
-      tries++;
-      direction *= -1;
+  function moveNoButton() {
+    tries++;
 
-      const moveX = direction * 120;
-      noWrapper.style.transform = `translateX(${moveX}px)`;
+    noBtn.classList.add("shake");
+    setTimeout(() => noBtn.classList.remove("shake"), 200);
 
-      kitten.style.transform = `translateX(${direction * 10}px)`;
+    const rowWidth = noRow.clientWidth;
+    const btnWidth = noBtn.clientWidth;
+    const padding = 20;
 
-      noWrapper.classList.add("shake");
-      setTimeout(() => noWrapper.classList.remove("shake"), 300);
+    const maxX = rowWidth - btnWidth - padding;
+    const randomX = padding + Math.random() * maxX;
 
-      if (tries >= 5) {
-        noBtn.innerText = "Okay okay, click YES 😭";
-      }
-    }
+    noBtn.style.left = `${randomX}px`;
+  }
 
-    noWrapper.addEventListener("touchstart", moveNoButton);
-    noWrapper.addEventListener("click", moveNoButton);
+  noBtn.addEventListener("touchstart", moveNoButton);
+  noBtn.addEventListener("mouseover", moveNoButton);
 
-    yesBtn.addEventListener("click", () => {
-      document.getElementById("questionCard").classList.add("hidden");
-      document.getElementById("resultCard").classList.remove("hidden");
-    });
-  </script>
+  yesBtn.addEventListener("click", () => {
+    // Happy kitten
+    eyeL.setAttribute("r", "6");
+    eyeR.setAttribute("r", "6");
+    mouth.setAttribute("d", "M85 85 Q100 95 115 85");
+
+    // Big heart
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = "50%";
+    heart.style.top = "50%";
+    heart.style.transform = "translate(-50%, -50%)";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 1200);
+
+    document.getElementById("card").innerHTML +=
+      "<h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>";
+  });
+</script>
 
 </body>
 </html>
