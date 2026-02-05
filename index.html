@@ -19,14 +19,13 @@
 
     .container {
       background: white;
-      padding: 30px 20px;
+      padding: 30px 20px 40px;
       border-radius: 20px;
       width: 90%;
       max-width: 380px;
       text-align: center;
       position: relative;
-      overflow: hidden;
-      z-index: 1;
+      overflow: hidden; /* critical */
     }
 
     h2 {
@@ -37,18 +36,17 @@
     .buttons {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 22px;
     }
 
     .button-row {
       position: relative;
-      height: 55px;
-      padding: 0 15px;
+      height: 56px;
       overflow: hidden;
     }
 
     button {
-      padding: 12px 20px;
+      padding: 12px 22px;
       font-size: 16px;
       border: none;
       border-radius: 25px;
@@ -57,15 +55,17 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      max-width: 90%;
     }
 
     #yesBtn {
       background: #ff4d6d;
       color: white;
+      z-index: 2;
     }
 
     #noBtn {
-      background: #ccc;
+      background: #ddd;
       color: #333;
     }
 
@@ -75,9 +75,9 @@
 
     @keyframes shake {
       0% { transform: translateX(-50%) translateX(0); }
-      25% { transform: translateX(-50%) translateX(-3px); }
-      50% { transform: translateX(-50%) translateX(3px); }
-      75% { transform: translateX(-50%) translateX(-3px); }
+      25% { transform: translateX(-50%) translateX(-4px); }
+      50% { transform: translateX(-50%) translateX(4px); }
+      75% { transform: translateX(-50%) translateX(-4px); }
       100% { transform: translateX(-50%) translateX(0); }
     }
 
@@ -89,21 +89,22 @@
       color: #ff4d6d;
     }
 
-    /* 💖 Heart Explosion */
+    /* ❤️ Hearts INSIDE card */
     .heart {
-      position: fixed;
+      position: absolute;
       font-size: 20px;
-      animation: floatUp 2s ease-out forwards;
+      animation: floatUp 1.8s ease-out forwards;
       pointer-events: none;
+      z-index: 5;
     }
 
     @keyframes floatUp {
-      0% {
+      from {
         transform: translateY(0) scale(1);
         opacity: 1;
       }
-      100% {
-        transform: translateY(-120px) scale(1.5);
+      to {
+        transform: translateY(-120px) scale(1.6);
         opacity: 0;
       }
     }
@@ -126,7 +127,7 @@
         <button id="yesBtn">Obviously YES ❤️</button>
       </div>
 
-      <div class="button-row" id="noRow">
+      <div class="button-row">
         <button id="noBtn">Let me think 🙈</button>
       </div>
     </div>
@@ -142,7 +143,6 @@
 
   <script>
     const noBtn = document.getElementById("noBtn");
-    const noRow = document.getElementById("noRow");
     const yesBtn = document.getElementById("yesBtn");
     const questionPage = document.getElementById("questionPage");
     const resultPage = document.getElementById("resultPage");
@@ -159,20 +159,14 @@
 
     function moveNoButton() {
       tries++;
-
       noBtn.textContent = noTexts[Math.min(tries - 1, noTexts.length - 1)];
 
       noBtn.classList.add("shake");
       setTimeout(() => noBtn.classList.remove("shake"), 200);
 
-      const rowWidth = noRow.clientWidth;
-      const btnWidth = noBtn.clientWidth;
-      const padding = 15;
-
-      const maxMove = rowWidth - btnWidth - padding * 2;
-      const randomX = padding + Math.random() * maxMove;
-
-      noBtn.style.left = `${randomX}px`;
+      // SAFE horizontal movement (never outside)
+      const randomOffset = (Math.random() * 60) - 30; // -30% to +30%
+      noBtn.style.transform = `translateX(-50%) translateX(${randomOffset}%)`;
     }
 
     noBtn.addEventListener("mouseover", moveNoButton);
@@ -186,19 +180,19 @@
       setTimeout(() => {
         questionPage.classList.add("hidden");
         resultPage.classList.remove("hidden");
-      }, 600);
+      }, 700);
     });
 
     function createHeartExplosion() {
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 18; i++) {
         const heart = document.createElement("div");
         heart.className = "heart";
         heart.textContent = "💖";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.top = window.innerHeight - 100 + "px";
-        document.body.appendChild(heart);
+        heart.style.left = Math.random() * 80 + 10 + "%";
+        heart.style.bottom = "20px";
+        questionPage.appendChild(heart);
 
-        setTimeout(() => heart.remove(), 2000);
+        setTimeout(() => heart.remove(), 1800);
       }
     }
   </script>
