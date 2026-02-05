@@ -14,6 +14,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
     .container {
@@ -25,6 +26,7 @@
       text-align: center;
       position: relative;
       overflow: hidden;
+      z-index: 1;
     }
 
     h2 {
@@ -41,6 +43,8 @@
     .button-row {
       position: relative;
       height: 55px;
+      padding: 0 15px;
+      overflow: hidden;
     }
 
     button {
@@ -50,7 +54,6 @@
       border-radius: 25px;
       cursor: pointer;
       white-space: nowrap;
-      transition: transform 0.15s ease;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -85,6 +88,25 @@
     .result h1 {
       color: #ff4d6d;
     }
+
+    /* 💖 Heart Explosion */
+    .heart {
+      position: fixed;
+      font-size: 20px;
+      animation: floatUp 2s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120px) scale(1.5);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
@@ -114,7 +136,7 @@
     <h1>Happy Anniversary ❤️</h1>
     <p>
       Thank you for choosing me —<br>
-      again and again and always 🥰
+      today, tomorrow, always 🥰
     </p>
   </div>
 
@@ -138,34 +160,47 @@
     function moveNoButton() {
       tries++;
 
-      // Change text after each try
       noBtn.textContent = noTexts[Math.min(tries - 1, noTexts.length - 1)];
 
-      // Shake
       noBtn.classList.add("shake");
       setTimeout(() => noBtn.classList.remove("shake"), 200);
 
       const rowWidth = noRow.clientWidth;
       const btnWidth = noBtn.clientWidth;
-      const maxMove = rowWidth - btnWidth - 10;
+      const padding = 15;
 
-      const randomX = Math.random() * maxMove;
+      const maxMove = rowWidth - btnWidth - padding * 2;
+      const randomX = padding + Math.random() * maxMove;
+
       noBtn.style.left = `${randomX}px`;
     }
 
-    // Desktop
     noBtn.addEventListener("mouseover", moveNoButton);
-
-    // Mobile
     noBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       moveNoButton();
     });
 
     yesBtn.addEventListener("click", () => {
-      questionPage.classList.add("hidden");
-      resultPage.classList.remove("hidden");
+      createHeartExplosion();
+      setTimeout(() => {
+        questionPage.classList.add("hidden");
+        resultPage.classList.remove("hidden");
+      }, 600);
     });
+
+    function createHeartExplosion() {
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = window.innerHeight - 100 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 2000);
+      }
+    }
   </script>
 
 </body>
