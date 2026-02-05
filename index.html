@@ -83,10 +83,12 @@
     100% { transform: translateX(0); }
   }
 
+  /* GIF below NO (hidden initially) */
   .gif-small {
     width: 120px;
     margin-top: 10px;
     border-radius: 12px;
+    display: none;
   }
 
   /* Heart animation */
@@ -124,16 +126,19 @@
   </h2>
 
   <div class="buttons">
-    <!-- YES button -->
     <button id="yesBtn">YESSS ❤️</button>
 
-    <!-- NO button BELOW YES -->
     <div class="button-row" id="noRow">
       <button id="noBtn">Let me think 🤔</button>
     </div>
 
-    <!-- GIF BELOW NO BUTTON -->
-    <img class="gif-small" src="peachandgoma-sticker-up5r07afytcw9uzv.webp" alt="cute gif">
+    <!-- GIF BELOW NO (appears only after NO is clicked) -->
+    <img
+      id="noGif"
+      class="gif-small"
+      src="below-no.webp"
+      alt="cute gif"
+    >
   </div>
 </div>
 
@@ -141,6 +146,7 @@
   const noBtn = document.getElementById("noBtn");
   const noRow = document.getElementById("noRow");
   const yesBtn = document.getElementById("yesBtn");
+  const noGif = document.getElementById("noGif");
 
   const noTexts = [
     "Let me think 🤔",
@@ -153,6 +159,11 @@
   let tries = 0;
 
   function moveNoButton() {
+    // show gif on first NO attempt
+    if (noGif.style.display !== "block") {
+      noGif.style.display = "block";
+    }
+
     tries++;
     noBtn.textContent = noTexts[Math.min(tries, noTexts.length - 1)];
 
@@ -185,7 +196,7 @@
 
     document.getElementById("card").innerHTML = `
       <h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>
-      <img class="gif" src="cute-dancing-peach-and-goma-9xf6bolxzx1ye10k.webp" alt="Cute anniversary gif">
+      <img class="gif" src="anniversary.webp" alt="Cute anniversary gif">
     `;
   });
 </script>
