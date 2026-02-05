@@ -38,11 +38,13 @@
     flex-direction: column;
     gap: 14px;
     margin-top: 10px;
+    align-items: center;
   }
 
   .button-row {
     position: relative;
     height: 48px;
+    width: 100%;
     padding: 0 20px;
     overflow: hidden;
   }
@@ -60,7 +62,6 @@
   #yesBtn {
     background: #ff4d88;
     color: white;
-    align-self: center;
   }
 
   #noBtn {
@@ -80,6 +81,12 @@
     50% { transform: translateX(3px); }
     75% { transform: translateX(-3px); }
     100% { transform: translateX(0); }
+  }
+
+  .gif-small {
+    width: 120px;
+    margin-top: 10px;
+    border-radius: 12px;
   }
 
   /* Heart animation */
@@ -117,11 +124,16 @@
   </h2>
 
   <div class="buttons">
+    <!-- YES button -->
     <button id="yesBtn">YESSS ❤️</button>
 
+    <!-- NO button BELOW YES -->
     <div class="button-row" id="noRow">
       <button id="noBtn">Let me think 🤔</button>
     </div>
+
+    <!-- GIF BELOW NO BUTTON -->
+    <img class="gif-small" src="below-no.webp" alt="cute gif">
   </div>
 </div>
 
@@ -142,7 +154,6 @@
 
   function moveNoButton() {
     tries++;
-
     noBtn.textContent = noTexts[Math.min(tries, noTexts.length - 1)];
 
     noBtn.classList.add("shake");
@@ -162,7 +173,6 @@
   noBtn.addEventListener("mouseover", moveNoButton);
 
   yesBtn.addEventListener("click", () => {
-    // Heart animation
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "❤️";
@@ -173,10 +183,9 @@
 
     setTimeout(() => heart.remove(), 1200);
 
-    // Anniversary screen
     document.getElementById("card").innerHTML = `
       <h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>
-      <img class="gif" src="cute-dancing-peach-and-goma-9xf6bolxzx1ye10k.webp" alt="Cute anniversary gif">
+      <img class="gif" src="anniversary.webp" alt="Cute anniversary gif">
     `;
   });
 </script>
