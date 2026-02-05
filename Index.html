@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Just One Question ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+      height: 300px;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 50px;
+      color: #333;
+    }
+
+    button {
+      padding: 12px 22px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      position: absolute;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    #yesBtn {
+      background-color: #4CAF50;
+      color: white;
+      left: 50%;
+      transform: translateX(-120%);
+      bottom: 30px;
+    }
+
+    #noBtn {
+      background-color: #f44336;
+      color: white;
+      left: 50%;
+      transform: translateX(20%);
+      bottom: 30px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result {
+      text-align: center;
+    }
+
+    .result h1 {
+      font-size: 26px;
+    }
+
+    .result p {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Question Page -->
+  <div class="container" id="questionPage">
+    <h1>Will you be my partner for 7 janam? 💍❤️</h1>
+    <button id="yesBtn">Yes 😍</button>
+    <button id="noBtn">No 🙈</button>
+  </div>
+
+  <!-- Result Page -->
+  <div class="container hidden result" id="resultPage">
+    <h1>🎉 Happy Anniversary My Love ❤️</h1>
+    <p>You are officially stuck with me for all 7 janams 😌💖</p>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const questionPage = document.getElementById("questionPage");
+    const resultPage = document.getElementById("resultPage");
+    const container = document.getElementById("questionPage");
+
+    function moveNoButton() {
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * (maxY - 80)) + 80;
+
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+      noBtn.style.transform = "none";
+    }
+
+    // Desktop
+    noBtn.addEventListener("mouseover", moveNoButton);
+
+    // Mobile
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    yesBtn.addEventListener("click", () => {
+      questionPage.classList.add("hidden");
+      resultPage.classList.remove("hidden");
+    });
+  </script>
+
+</body>
+</html>
