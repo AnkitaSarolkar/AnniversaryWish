@@ -33,12 +33,18 @@
     margin-bottom: 25px;
   }
 
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 10px;
+  }
+
   .button-row {
     position: relative;
-    height: 60px;
+    height: 48px;
     padding: 0 20px;
     overflow: hidden;
-    margin-top: 15px;
   }
 
   button {
@@ -48,12 +54,13 @@
     border: none;
     cursor: pointer;
     white-space: nowrap;
+    min-width: 150px;
   }
 
   #yesBtn {
     background: #ff4d88;
     color: white;
-    width: 100%;
+    align-self: center;
   }
 
   #noBtn {
@@ -109,10 +116,12 @@
     for 7 janams?
   </h2>
 
-  <button id="yesBtn">YESSS ❤️</button>
+  <div class="buttons">
+    <button id="yesBtn">YESSS ❤️</button>
 
-  <div class="button-row" id="noRow">
-    <button id="noBtn">Let me think 🤔</button>
+    <div class="button-row" id="noRow">
+      <button id="noBtn">Let me think 🤔</button>
+    </div>
   </div>
 </div>
 
@@ -121,7 +130,21 @@
   const noRow = document.getElementById("noRow");
   const yesBtn = document.getElementById("yesBtn");
 
+  const noTexts = [
+    "Let me think 🤔",
+    "Hmm… not sure 🙄",
+    "Are you serious? 😏",
+    "Stop it 😂",
+    "Okay okay, click YES 😅"
+  ];
+
+  let tries = 0;
+
   function moveNoButton() {
+    tries++;
+
+    noBtn.textContent = noTexts[Math.min(tries, noTexts.length - 1)];
+
     noBtn.classList.add("shake");
     setTimeout(() => noBtn.classList.remove("shake"), 200);
 
@@ -153,7 +176,7 @@
     // Anniversary screen
     document.getElementById("card").innerHTML = `
       <h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>
-      <img class="gif" src="cute-dancing-peach-and-goma-9xf6bolxzx1ye10k.webp" alt="Cute anniversary gif">
+      <img class="gif" src="anniversary.webp" alt="Cute anniversary gif">
     `;
   });
 </script>
