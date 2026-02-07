@@ -1,208 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Happy Anniversary ❤️</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anniversary Surprise</title>
 
-<style>
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffd6e8, #fff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-  .card {
-    background: white;
-    width: 90%;
-    max-width: 380px;
-    padding: 25px 20px 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    text-align: center;
-    overflow: hidden;
-  }
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 380px;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
 
-  h2 {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 25px;
-  }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
 
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-top: 10px;
-    align-items: center;
-  }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
 
-  .button-row {
-    position: relative;
-    height: 48px;
-    width: 100%;
-    padding: 0 20px;
-    overflow: hidden;
-  }
+    #yesBtn {
+      background: #ff6f91;
+      color: white;
+    }
 
-  button {
-    font-size: 15px;
-    padding: 10px 18px;
-    border-radius: 25px;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    min-width: 150px;
-  }
+    #noBtn {
+      background: #e0e0e0;
+      position: relative;
+    }
 
-  #yesBtn {
-    background: #ff4d88;
-    color: white;
-  }
+    .hidden {
+      display: none;
+    }
 
-  #noBtn {
-    position: absolute;
-    background: #ddd;
-    left: 20px;
-    top: 0;
-  }
+    /* No button movement safe zone */
+    .button-area {
+      position: relative;
+      height: 140px;
+      overflow: hidden;
+    }
 
-  .shake {
-    animation: shake 0.2s;
-  }
+    /* Q&A */
+    .option {
+      background: #ececec;
+    }
 
-  @keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    50% { transform: translateX(3px); }
-    75% { transform: translateX(-3px); }
-    100% { transform: translateX(0); }
-  }
+    /* Promise */
+    .promise {
+      font-size: 18px;
+      line-height: 1.4;
+    }
 
-  /* GIF below NO (hidden initially) */
-  .gif-small {
-    width: 120px;
-    margin-top: 10px;
-    border-radius: 12px;
-    display: none;
-  }
+    /* Heart explosion */
+    .heart {
+      position: absolute;
+      font-size: 32px;
+      animation: pop 1s ease forwards;
+      pointer-events: none;
+    }
 
-  /* Heart animation */
-  .heart {
-    position: fixed;
-    font-size: 60px;
-    animation: heartPop 1.2s forwards;
-    z-index: 10;
-  }
-
-  @keyframes heartPop {
-    0% { transform: scale(0); opacity: 1; }
-    60% { transform: scale(2); opacity: 1; }
-    100% { transform: scale(3); opacity: 0; }
-  }
-
-  .gif {
-    width: 100%;
-    max-width: 260px;
-    margin-top: 15px;
-    border-radius: 15px;
-  }
-</style>
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 1; }
+      70% { transform: scale(1.8); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card" id="card">
-  <h2>
-    Will you:<br><br>
-    Share food 🍕<br>
-    Watch my shows 📺<br>
-    Listen to my stories (again) 🙈<br><br>
-    for 7 janams?
-  </h2>
+<div class="card">
 
-  <div class="buttons">
-    <button id="yesBtn">YESSS ❤️</button>
+  <!-- START SCREEN -->
+  <div id="startScreen">
+    <h2>
+      Will you:<br><br>
+      Share food 🍕<br>
+      Watch my shows 📺<br>
+      Listen to my stories (again) 🙈<br><br>
+      for 7 janams?
+    </h2>
 
-    <div class="button-row" id="noRow">
+    <button id="yesBtn">Obviously YES ❤️</button>
+
+    <div class="button-area">
       <button id="noBtn">Let me think 🤔</button>
     </div>
-
-    <!-- GIF BELOW NO (appears only after NO is clicked) -->
-    <img
-      id="noGif"
-      class="gif-small"
-      src="peachandgoma-sticker-up5r07afytcw9uzv.webp"
-      alt="cute gif"
-    >
   </div>
+
+  <!-- QUESTIONS -->
+  <div id="questionScreen" class="hidden">
+    <h2 id="questionText"></h2>
+    <button class="option" onclick="nextQuestion()">Option A</button>
+    <button class="option" onclick="nextQuestion()">Option B</button>
+  </div>
+
+  <!-- PROMISE -->
+  <div id="promiseScreen" class="hidden">
+    <div class="promise">
+      I promise to:<br><br>
+      • Choose you even on bad network days<br>
+      • Debug us before sleeping<br>
+      • Never deprecate “us” ❤️
+    </div>
+    <button id="promiseBtn">Promise Accepted 🤝</button>
+  </div>
+
+  <!-- FINAL -->
+  <div id="finalScreen" class="hidden">
+    <h2>Happy Anniversary ❤️</h2>
+    <img src="your-gif.webp" style="width:100%; margin-top:16px;" />
+  </div>
+
 </div>
 
 <script>
   const noBtn = document.getElementById("noBtn");
-  const noRow = document.getElementById("noRow");
   const yesBtn = document.getElementById("yesBtn");
-  const noGif = document.getElementById("noGif");
 
-  const noTexts = [
+  const startScreen = document.getElementById("startScreen");
+  const questionScreen = document.getElementById("questionScreen");
+  const promiseScreen = document.getElementById("promiseScreen");
+  const finalScreen = document.getElementById("finalScreen");
+
+  const questionText = document.getElementById("questionText");
+
+  let noCount = 0;
+
+  const noPhrases = [
     "Let me think 🤔",
-    "Hmm… not sure 🙄",
-    "Are you serious? 😏",
-    "Stop it 😂",
-    "Okay okay, click YES 😅"
+    "Still thinking 😅",
+    "Are you sure? 😬",
+    "Hmm… 🤨",
+    "Okay okay…"
   ];
 
-  let tries = 0;
+  noBtn.addEventListener("click", () => {
+    noCount++;
 
-  // ✅ CENTER NO BUTTON INITIALLY
-  noBtn.style.left = `${(noRow.clientWidth - noBtn.clientWidth) / 2}px`;
+    const area = document.querySelector(".button-area");
+    const maxX = area.clientWidth - noBtn.offsetWidth;
 
-  function moveNoButton() {
-    if (noGif.style.display !== "block") {
-      noGif.style.display = "block";
+    const randomX = Math.random() * maxX;
+    noBtn.style.transform = `translateX(${randomX}px)`;
+
+    if (noCount >= 5) {
+      noBtn.textContent = "Okay okay, click YES 😌";
+    } else {
+      noBtn.textContent = noPhrases[noCount % noPhrases.length];
     }
-
-    tries++;
-    noBtn.textContent = noTexts[Math.min(tries, noTexts.length - 1)];
-
-    noBtn.classList.add("shake");
-    setTimeout(() => noBtn.classList.remove("shake"), 200);
-
-    const rowWidth = noRow.clientWidth;
-    const btnWidth = noBtn.clientWidth;
-    const padding = 20;
-
-    const maxX = rowWidth - btnWidth - padding;
-    const randomX = padding + Math.random() * maxX;
-
-    noBtn.style.left = `${randomX}px`;
-  }
-
-  noBtn.addEventListener("touchstart", moveNoButton);
-  noBtn.addEventListener("mouseover", moveNoButton);
+  });
 
   yesBtn.addEventListener("click", () => {
+    heartExplosion();
+    startScreen.classList.add("hidden");
+    loadQuestion();
+    questionScreen.classList.remove("hidden");
+  });
+
+  const questions = [
+    "When a bug (argument) appears, I prefer…",
+    "What keeps my system stable?",
+    "When I’m overloaded, the correct response is…"
+  ];
+
+  let currentQuestion = 0;
+
+  function loadQuestion() {
+    questionText.textContent = questions[currentQuestion];
+  }
+
+  function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      loadQuestion();
+    } else {
+      questionScreen.classList.add("hidden");
+      promiseScreen.classList.remove("hidden");
+    }
+  }
+
+  document.getElementById("promiseBtn").addEventListener("click", () => {
+    promiseScreen.classList.add("hidden");
+    finalScreen.classList.remove("hidden");
+  });
+
+  function heartExplosion() {
     const heart = document.createElement("div");
     heart.className = "heart";
-    heart.innerHTML = "❤️";
+    heart.textContent = "❤️";
     heart.style.left = "50%";
-    heart.style.top = "50%";
-    heart.style.transform = "translate(-50%, -50%)";
+    heart.style.top = "40%";
     document.body.appendChild(heart);
 
-    setTimeout(() => heart.remove(), 1200);
-
-    document.getElementById("card").innerHTML = `
-      <h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>
-      <img class="gif" src="cute-dancing-peach-and-goma-9xf6bolxzx1ye10k.webp" alt="Cute anniversary gif">
-    `;
-  });
+    setTimeout(() => heart.remove(), 1000);
+  }
 </script>
-
 
 </body>
 </html>
