@@ -27,9 +27,7 @@
     overflow: hidden;
   }
 
-  h2 {
-    font-size: 18px;
-  }
+  h2 { font-size: 18px; }
 
   button {
     width: 100%;
@@ -40,35 +38,24 @@
     font-size: 16px;
   }
 
-  #yesBtn {
-    background: #ff6f91;
-    color: white;
-  }
+  #yesBtn { background: #ff6f91; color: white; }
 
   #noBtn {
     background: #e0e0e0;
     position: absolute;
-    left: 0;
-    top: 0;
   }
 
   .button-area {
     position: relative;
-    height: 120px;
+    height: 130px;
     margin-top: 8px;
     overflow: hidden;
   }
 
   .hidden { display: none; }
+  .option { background: #ececec; }
 
-  .option {
-    background: #ececec;
-  }
-
-  .shake {
-    animation: shake 0.4s;
-  }
-
+  .shake { animation: shake 0.4s; }
   @keyframes shake {
     0% { transform: translateX(0); }
     25% { transform: translateX(-4px); }
@@ -122,12 +109,18 @@
   </div>
 </div>
 
-<!-- QUESTIONS -->
+<!-- QUIZ -->
 <div id="quiz" class="hidden">
   <h2 id="qText"></h2>
   <button class="option" id="optA"></button>
   <button class="option" id="optB"></button>
   <div class="fun-text hidden" id="funMsg"></div>
+</div>
+
+<!-- CI PASSED -->
+<div id="ci" class="hidden">
+  <h2>CI Passed ✅<br>No breaking changes detected</h2>
+  <button id="ciBtn">Continue</button>
 </div>
 
 <!-- PROMISE -->
@@ -165,8 +158,13 @@ const phrases = [
 
 noBtn.addEventListener("click", () => {
   const maxX = area.clientWidth - noBtn.offsetWidth;
+  const maxY = area.clientHeight - noBtn.offsetHeight;
+
   const randX = Math.random() * maxX;
+  const randY = Math.random() * maxY;
+
   noBtn.style.left = randX + "px";
+  noBtn.style.top = randY + "px";
 
   noBtn.textContent = phrases[Math.min(noCount, phrases.length - 1)];
   noCount++;
@@ -174,8 +172,8 @@ noBtn.addEventListener("click", () => {
 
 document.getElementById("yesBtn").onclick = () => {
   heart();
-  document.getElementById("start").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
+  start.classList.add("hidden");
+  quiz.classList.remove("hidden");
   loadQ();
 };
 
@@ -203,17 +201,16 @@ const questions = [
 let qi = 0;
 
 function loadQ() {
-  const q = questions[qi];
-  qText.textContent = q.q;
-  optA.textContent = q.a;
-  optB.textContent = q.b;
+  qText.textContent = questions[qi].q;
+  optA.textContent = questions[qi].a;
+  optB.textContent = questions[qi].b;
 }
 
 optA.onclick = () => answer("a");
 optB.onclick = () => answer("b");
 
 function answer(choice) {
-  const fun = document.getElementById("funMsg");
+  const fun = funMsg;
   if (choice !== questions[qi].correct) {
     card.classList.add("shake");
     fun.textContent = "Hmm… close 😄 but I’ll allow it";
@@ -233,14 +230,19 @@ function next() {
   if (qi < questions.length) {
     loadQ();
   } else {
-    document.getElementById("quiz").classList.add("hidden");
-    document.getElementById("promise").classList.remove("hidden");
+    quiz.classList.add("hidden");
+    ci.classList.remove("hidden");
   }
 }
 
-document.getElementById("promiseBtn").onclick = () => {
-  document.getElementById("promise").classList.add("hidden");
-  document.getElementById("final").classList.remove("hidden");
+ciBtn.onclick = () => {
+  ci.classList.add("hidden");
+  promise.classList.remove("hidden");
+};
+
+promiseBtn.onclick = () => {
+  promise.classList.add("hidden");
+  final.classList.remove("hidden");
 };
 
 function heart() {
