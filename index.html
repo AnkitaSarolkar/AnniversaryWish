@@ -1,223 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anniversary Surprise</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anniversary</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<style>
+  body {
+    margin: 0;
+    background: #f5f5f5;
+    font-family: system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 
-    .card {
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 380px;
-      text-align: center;
-      overflow: hidden;
-      position: relative;
-    }
+  .card {
+    background: white;
+    padding: 22px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
 
-    h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
+  h2 {
+    font-size: 18px;
+  }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-    }
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+  }
 
-    #yesBtn {
-      background: #ff6f91;
-      color: white;
-    }
+  #yesBtn {
+    background: #ff6f91;
+    color: white;
+  }
 
-    #noBtn {
-      background: #e0e0e0;
-      position: relative;
-    }
+  #noBtn {
+    background: #e0e0e0;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 
-    .hidden {
-      display: none;
-    }
+  .button-area {
+    position: relative;
+    height: 120px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
 
-    /* No button movement safe zone */
-    .button-area {
-      position: relative;
-      height: 140px;
-      overflow: hidden;
-    }
+  .hidden { display: none; }
 
-    /* Q&A */
-    .option {
-      background: #ececec;
-    }
+  .option {
+    background: #ececec;
+  }
 
-    /* Promise */
-    .promise {
-      font-size: 18px;
-      line-height: 1.4;
-    }
+  .shake {
+    animation: shake 0.4s;
+  }
 
-    /* Heart explosion */
-    .heart {
-      position: absolute;
-      font-size: 32px;
-      animation: pop 1s ease forwards;
-      pointer-events: none;
-    }
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
 
-    @keyframes pop {
-      0% { transform: scale(0); opacity: 1; }
-      70% { transform: scale(1.8); opacity: 1; }
-      100% { transform: scale(2.2); opacity: 0; }
-    }
-  </style>
+  .fun-text {
+    font-size: 14px;
+    margin-top: 8px;
+    color: #ff6f91;
+  }
+
+  .heart {
+    position: absolute;
+    font-size: 36px;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    animation: pop 1s forwards;
+    pointer-events: none;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 1; }
+    70% { transform: scale(1.8); }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+</style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="card" id="card">
 
-  <!-- START SCREEN -->
-  <div id="startScreen">
-    <h2>
-      Will you:<br><br>
-      Share food 🍕<br>
-      Watch my shows 📺<br>
-      Listen to my stories (again) 🙈<br><br>
-      for 7 janams?
-    </h2>
+<!-- START -->
+<div id="start">
+  <h2>
+    Will you:<br><br>
+    Share food 🍕<br>
+    Watch my shows 📺<br>
+    Listen to my stories (again) 🙈<br><br>
+    for 7 janams?
+  </h2>
 
-    <button id="yesBtn">Obviously YES ❤️</button>
+  <button id="yesBtn">Obviously YES ❤️</button>
 
-    <div class="button-area">
-      <button id="noBtn">Let me think 🤔</button>
-    </div>
+  <div class="button-area" id="area">
+    <button id="noBtn">Let me think 🤔</button>
   </div>
+</div>
 
-  <!-- QUESTIONS -->
-  <div id="questionScreen" class="hidden">
-    <h2 id="questionText"></h2>
-    <button class="option" onclick="nextQuestion()">Option A</button>
-    <button class="option" onclick="nextQuestion()">Option B</button>
-  </div>
+<!-- QUESTIONS -->
+<div id="quiz" class="hidden">
+  <h2 id="qText"></h2>
+  <button class="option" id="optA"></button>
+  <button class="option" id="optB"></button>
+  <div class="fun-text hidden" id="funMsg"></div>
+</div>
 
-  <!-- PROMISE -->
-  <div id="promiseScreen" class="hidden">
-    <div class="promise">
-      I promise to:<br><br>
-      • Choose you even on bad network days<br>
-      • Debug us before sleeping<br>
-      • Never deprecate “us” ❤️
-    </div>
-    <button id="promiseBtn">Promise Accepted 🤝</button>
-  </div>
+<!-- PROMISE -->
+<div id="promise" class="hidden">
+  <h2>
+    Promise to debug us<br>
+    before sleeping,<br>
+    choose us in production,<br>
+    and never deprecate ❤️
+  </h2>
+  <button id="promiseBtn">Promise Accepted 🤝</button>
+</div>
 
-  <!-- FINAL -->
-  <div id="finalScreen" class="hidden">
-    <h2>Happy Anniversary ❤️</h2>
-    <img src="your-gif.webp" style="width:100%; margin-top:16px;" />
-  </div>
+<!-- FINAL -->
+<div id="final" class="hidden">
+  <h2>Happy Anniversary ❤️</h2>
+  <img src="your-gif.webp" style="width:100%; margin-top:14px;">
+</div>
 
 </div>
 
 <script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const area = document.getElementById("area");
+const card = document.getElementById("card");
 
-  const startScreen = document.getElementById("startScreen");
-  const questionScreen = document.getElementById("questionScreen");
-  const promiseScreen = document.getElementById("promiseScreen");
-  const finalScreen = document.getElementById("finalScreen");
+let noCount = 0;
+const phrases = [
+  "Let me think 🤔",
+  "Still thinking 😅",
+  "Are you sure? 😬",
+  "Hmm… 🤨",
+  "Okay okay, click YES 😌"
+];
 
-  const questionText = document.getElementById("questionText");
+noBtn.addEventListener("click", () => {
+  const maxX = area.clientWidth - noBtn.offsetWidth;
+  const randX = Math.random() * maxX;
+  noBtn.style.left = randX + "px";
 
-  let noCount = 0;
+  noBtn.textContent = phrases[Math.min(noCount, phrases.length - 1)];
+  noCount++;
+});
 
-  const noPhrases = [
-    "Let me think 🤔",
-    "Still thinking 😅",
-    "Are you sure? 😬",
-    "Hmm… 🤨",
-    "Okay okay…"
-  ];
+document.getElementById("yesBtn").onclick = () => {
+  heart();
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  loadQ();
+};
 
-  noBtn.addEventListener("click", () => {
-    noCount++;
-
-    const area = document.querySelector(".button-area");
-    const maxX = area.clientWidth - noBtn.offsetWidth;
-
-    const randomX = Math.random() * maxX;
-    noBtn.style.transform = `translateX(${randomX}px)`;
-
-    if (noCount >= 5) {
-      noBtn.textContent = "Okay okay, click YES 😌";
-    } else {
-      noBtn.textContent = noPhrases[noCount % noPhrases.length];
-    }
-  });
-
-  yesBtn.addEventListener("click", () => {
-    heartExplosion();
-    startScreen.classList.add("hidden");
-    loadQuestion();
-    questionScreen.classList.remove("hidden");
-  });
-
-  const questions = [
-    "When a bug (argument) appears, I prefer…",
-    "What keeps my system stable?",
-    "When I’m overloaded, the correct response is…"
-  ];
-
-  let currentQuestion = 0;
-
-  function loadQuestion() {
-    questionText.textContent = questions[currentQuestion];
+const questions = [
+  {
+    q: "When a bug (argument) appears, I prefer…",
+    a: "Fix it immediately (hotfix)",
+    b: "Understand feelings + root cause",
+    correct: "b"
+  },
+  {
+    q: "What keeps my system stable?",
+    a: "Big gestures sometimes",
+    b: "Small consistent check-ins",
+    correct: "b"
+  },
+  {
+    q: "When I’m overloaded, the right response is…",
+    a: "Give space, I’m throttling",
+    b: "Stay close, manual support needed",
+    correct: "b"
   }
+];
 
-  function nextQuestion() {
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-      loadQuestion();
-    } else {
-      questionScreen.classList.add("hidden");
-      promiseScreen.classList.remove("hidden");
-    }
+let qi = 0;
+
+function loadQ() {
+  const q = questions[qi];
+  qText.textContent = q.q;
+  optA.textContent = q.a;
+  optB.textContent = q.b;
+}
+
+optA.onclick = () => answer("a");
+optB.onclick = () => answer("b");
+
+function answer(choice) {
+  const fun = document.getElementById("funMsg");
+  if (choice !== questions[qi].correct) {
+    card.classList.add("shake");
+    fun.textContent = "Hmm… close 😄 but I’ll allow it";
+    fun.classList.remove("hidden");
+    setTimeout(() => {
+      card.classList.remove("shake");
+      fun.classList.add("hidden");
+      next();
+    }, 700);
+  } else {
+    next();
   }
+}
 
-  document.getElementById("promiseBtn").addEventListener("click", () => {
-    promiseScreen.classList.add("hidden");
-    finalScreen.classList.remove("hidden");
-  });
-
-  function heartExplosion() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.textContent = "❤️";
-    heart.style.left = "50%";
-    heart.style.top = "40%";
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 1000);
+function next() {
+  qi++;
+  if (qi < questions.length) {
+    loadQ();
+  } else {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("promise").classList.remove("hidden");
   }
+}
+
+document.getElementById("promiseBtn").onclick = () => {
+  document.getElementById("promise").classList.add("hidden");
+  document.getElementById("final").classList.remove("hidden");
+};
+
+function heart() {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.textContent = "❤️";
+  card.appendChild(h);
+  setTimeout(() => h.remove(), 1000);
+}
 </script>
 
 </body>
