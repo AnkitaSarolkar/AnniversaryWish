@@ -29,27 +29,35 @@
 
   h2 { font-size: 18px; }
 
+  /* FIX: same size buttons */
   button {
     width: 100%;
-    padding: 12px;
+    height: 44px;
+    padding: 0;
     margin-top: 12px;
     border-radius: 10px;
     border: none;
     font-size: 16px;
   }
 
-  #yesBtn { background: #ff6f91; color: white; }
-
-  #noBtn {
-    background: #e0e0e0;
-    position: absolute;
+  #yesBtn {
+    background: #ff6f91;
+    color: white;
   }
 
   .button-area {
     position: relative;
-    height: 130px;
+    height: 70px;
     margin-top: 8px;
     overflow: hidden;
+  }
+
+  /* FIX: X-axis movement only */
+  #noBtn {
+    background: #e0e0e0;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 
   .hidden { display: none; }
@@ -92,7 +100,6 @@
 
 <div class="card" id="card">
 
-<!-- START -->
 <div id="start">
   <h2>
     Will you:<br><br>
@@ -109,7 +116,6 @@
   </div>
 </div>
 
-<!-- QUIZ -->
 <div id="quiz" class="hidden">
   <h2 id="qText"></h2>
   <button class="option" id="optA"></button>
@@ -117,13 +123,11 @@
   <div class="fun-text hidden" id="funMsg"></div>
 </div>
 
-<!-- CI PASSED -->
 <div id="ci" class="hidden">
   <h2>CI Passed ✅<br>No breaking changes detected</h2>
   <button id="ciBtn">Continue</button>
 </div>
 
-<!-- PROMISE -->
 <div id="promise" class="hidden">
   <h2>
     Promise to debug us<br>
@@ -134,7 +138,6 @@
   <button id="promiseBtn">Promise Accepted 🤝</button>
 </div>
 
-<!-- FINAL -->
 <div id="final" class="hidden">
   <h2>Happy Anniversary ❤️</h2>
   <img src="your-gif.webp" style="width:100%; margin-top:14px;">
@@ -158,19 +161,16 @@ const phrases = [
 
 noBtn.addEventListener("click", () => {
   const maxX = area.clientWidth - noBtn.offsetWidth;
-  const maxY = area.clientHeight - noBtn.offsetHeight;
-
   const randX = Math.random() * maxX;
-  const randY = Math.random() * maxY;
 
   noBtn.style.left = randX + "px";
-  noBtn.style.top = randY + "px";
+  noBtn.style.top = "0px";
 
   noBtn.textContent = phrases[Math.min(noCount, phrases.length - 1)];
   noCount++;
 });
 
-document.getElementById("yesBtn").onclick = () => {
+yesBtn.onclick = () => {
   heart();
   start.classList.add("hidden");
   quiz.classList.remove("hidden");
@@ -210,14 +210,12 @@ optA.onclick = () => answer("a");
 optB.onclick = () => answer("b");
 
 function answer(choice) {
-  const fun = funMsg;
   if (choice !== questions[qi].correct) {
     card.classList.add("shake");
-    fun.textContent = "Hmm… close 😄 but I’ll allow it";
-    fun.classList.remove("hidden");
+    funMsg.classList.remove("hidden");
     setTimeout(() => {
       card.classList.remove("shake");
-      fun.classList.add("hidden");
+      funMsg.classList.add("hidden");
       next();
     }, 700);
   } else {
