@@ -226,20 +226,17 @@ function answer(choice) {
   if (choice === questions[qi].correct) {
     funMsg.textContent = "Of course you know me 😌";
     funMsg.classList.remove("hidden");
-    setTimeout(() => {
-      funMsg.classList.add("hidden");
-      next();
-    }, 600);
   } else {
     funMsg.textContent = "Hmm… close but I know you better 😄";
     funMsg.classList.remove("hidden");
     card.classList.add("shake");
-    setTimeout(() => {
-      funMsg.classList.add("hidden");
-      card.classList.remove("shake");
-      next();
-    }, 700);
   }
+
+  setTimeout(() => {
+    funMsg.classList.add("hidden");
+    card.classList.remove("shake");
+    next();
+  }, 800); // 🔹 DELAY ADDED HERE
 }
 
 function next() {
