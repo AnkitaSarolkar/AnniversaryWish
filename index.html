@@ -51,7 +51,6 @@
     overflow: hidden;
   }
 
-  /* KEY FIX: NO button narrower than container */
   #noBtn {
     width: 70%;
     background: #e0e0e0;
@@ -93,6 +92,14 @@
     70% { transform: scale(1.8); }
     100% { transform: scale(2.2); opacity: 0; }
   }
+
+  .gift-link {
+    display: inline-block;
+    margin-top: 12px;
+    text-decoration: none;
+    color: #ff6f91;
+    font-weight: 600;
+  }
 </style>
 </head>
 
@@ -122,9 +129,7 @@
   <h2 id="qText"></h2>
   <button class="option" id="optA"></button>
   <button class="option" id="optB"></button>
-  <div class="fun-text hidden" id="funMsg">
-    Hmm… close but I know you better 😄
-  </div>
+  <div class="fun-text hidden" id="funMsg"></div>
 </div>
 
 <!-- CI -->
@@ -136,10 +141,11 @@
 <!-- PROMISE -->
 <div id="promise" class="hidden">
   <h2>
-    Promise to debug us<br>
+    7 Janam Promise ❤️<br><br>
+    I promise to debug us<br>
     before sleeping,<br>
     choose us in production,<br>
-    and never deprecate ❤️
+    and never deprecate us.
   </h2>
   <button id="promiseBtn">Promise Accepted 🤝</button>
 </div>
@@ -148,6 +154,9 @@
 <div id="final" class="hidden">
   <h2>Happy Anniversary ❤️</h2>
   <img src="your-gif.webp" style="width:100%; margin-top:14px;">
+  <a class="gift-link" href="https://your-gift-link-here" target="_blank">
+    🎁 Open your surprise
+  </a>
 </div>
 
 </div>
@@ -169,7 +178,6 @@ const phrases = [
 noBtn.addEventListener("click", () => {
   const maxX = area.clientWidth - noBtn.offsetWidth;
   const randX = Math.random() * maxX;
-
   noBtn.style.left = randX + "px";
   noBtn.textContent = phrases[Math.min(noCount, phrases.length - 1)];
   noCount++;
@@ -215,17 +223,22 @@ optA.onclick = () => answer("a");
 optB.onclick = () => answer("b");
 
 function answer(choice) {
-  if (choice !== questions[qi].correct) {
+  if (choice === questions[qi].correct) {
+    funMsg.textContent = "Of course you know me 😌";
+    funMsg.classList.remove("hidden");
+    setTimeout(() => {
+      funMsg.classList.add("hidden");
+      next();
+    }, 600);
+  } else {
+    funMsg.textContent = "Hmm… close but I know you better 😄";
     funMsg.classList.remove("hidden");
     card.classList.add("shake");
-
     setTimeout(() => {
       funMsg.classList.add("hidden");
       card.classList.remove("shake");
       next();
     }, 700);
-  } else {
-    next();
   }
 }
 
