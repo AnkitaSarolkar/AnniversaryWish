@@ -158,8 +158,10 @@
 
   let tries = 0;
 
+  // ✅ CENTER NO BUTTON INITIALLY
+  noBtn.style.left = `${(noRow.clientWidth - noBtn.clientWidth) / 2}px`;
+
   function moveNoButton() {
-    // show gif on first NO attempt
     if (noGif.style.display !== "block") {
       noGif.style.display = "block";
     }
@@ -196,10 +198,11 @@
 
     document.getElementById("card").innerHTML = `
       <h2>Happy Anniversary ❤️<br>You’re stuck with me forever 😘</h2>
-      <img class="gif" src="cute-dancing-peach-and-goma-9xf6bolxzx1ye10k.webp" alt="Cute anniversary gif">
+      <img class="gif" src="anniversary.webp" alt="Cute anniversary gif">
     `;
   });
 </script>
+
 
 </body>
 </html>
